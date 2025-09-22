@@ -76,7 +76,7 @@ PustakLink makes lending \& borrowing textbooks inside a campus, fast, safe and 
 
 &nbsp;  ```powershell
 
-&nbsp;  cd C:\\Users\\jaiji\\Documents
+&nbsp;  cd C:\\Users\\*username*\\Documents
 
 &nbsp;  .\\venv\\Scripts\\Activate.ps1
 
