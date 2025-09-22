@@ -16,7 +16,7 @@
 
 \## One-liner
 
-PustakLink makes buying \& selling textbooks inside a campus, fast, safe and low-cost — scan ISBN, list in 1 click, chat, and mark sold. Demo-ready backend (FastAPI) + seeded data.
+PustakLink makes lending \& borrowing textbooks inside a campus, fast, safe and low-cost — scan ISBN, list in 1 click, chat, and mark sold. Demo-ready backend (FastAPI) + seeded data.
 
 
 
