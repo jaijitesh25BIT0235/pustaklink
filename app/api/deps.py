@@ -1,4 +1,4 @@
-# app/api/deps.py
+﻿# app/api/deps.py
 from app.db.session import SessionLocal
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
@@ -23,3 +23,5 @@ def get_current_user(token: str = Depends(security.oauth2_scheme), db: Session =
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials")
     return user
+
+

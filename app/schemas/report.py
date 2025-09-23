@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+﻿from pydantic import BaseModel
 from datetime import datetime
 
 class ReportBase(BaseModel):
@@ -12,7 +12,9 @@ class ReportCreate(ReportBase):
 class ReportResponse(ReportBase):
     id: int
     reporter_id: int
-    created_at: datetime   # ✅ now works
+    created_at: datetime   # âœ… now works
 
     class Config:
         orm_mode = True
+
+

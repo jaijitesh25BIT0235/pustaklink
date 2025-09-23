@@ -1,4 +1,4 @@
-# app/api/isbn.py
+﻿# app/api/isbn.py
 from fastapi import APIRouter, HTTPException
 import requests
 
@@ -21,3 +21,5 @@ def get_isbn(isbn: str):
         }
     except requests.RequestException:
         raise HTTPException(status_code=404, detail="Book not found or ISBN invalid")
+
+

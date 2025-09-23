@@ -1,4 +1,4 @@
-# app/models/report.py
+﻿# app/models/report.py
 from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey
 from datetime import datetime
 from app.db.base import Base
@@ -13,5 +13,6 @@ class Report(Base):
     description = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+    # Back-populates to Listing.reports and User.reports
     listing = relationship("Listing", back_populates="reports")
     reporter = relationship("User", back_populates="reports")

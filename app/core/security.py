@@ -1,4 +1,4 @@
-# app/core/security.py
+﻿# app/core/security.py
 from datetime import datetime, timedelta
 from passlib.context import CryptContext
 from jose import jwt, JWTError
@@ -27,3 +27,5 @@ def decode_token(token: str):
         return payload
     except JWTError:
         return None
+
+

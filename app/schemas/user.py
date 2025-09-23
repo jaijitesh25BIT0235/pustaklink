@@ -1,4 +1,4 @@
-# app/schemas/user.py
+﻿# app/schemas/user.py
 from pydantic import BaseModel, EmailStr, validator
 from datetime import datetime
 
@@ -22,3 +22,5 @@ class UserResponse(UserBase):
 
     class Config:
         orm_mode = True
+
+

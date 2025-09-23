@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>PustakLink Minimal Demo</title>
+  <style>
+    body{font-family:Arial;background:#f7fafc;padding:18px}
+    .card{background:#fff;padding:16px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06);max-width:700px;margin:16px auto}
+    input,select,textarea{width:100%;padding:8px;margin:6px 0;border:1px solid #ddd;border-radius:6px}
+    button{padding:10px 14px;border:0;border-radius:6px;background:#ef4444;color:#fff;cursor:pointer}
+    pre{background:#0f172a;color:#fff;padding:12px;border-radius:6px;overflow:auto}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Login / Signup</h2>
+    <input id="email" placeholder="your@vitstudent.ac.in" />
+    <input id="password" placeholder="password" />
+    <div style="display:flex;gap:8px">
+      <button onclick="signup()">Signup</button>
+      <button onclick="login()">Login</button>
+    </div>
+    <p id="token" style="word-break:break-all;color:green"></p>
+  </div>
+
+  <div class="card">
+    <h2>Create Listing (requires login)</h2>
+    <input id="isbn" placeholder="ISBN e.g. 9780131103627" />
+    <input id="price" placeholder="price" />
+    <select id="condition"><option value="like_new">like_new</option><option value="used">used</option></select>
+    <input id="subject" placeholder="subject" />
+    <input id="semester" placeholder="semester (1-8)" />
+    <input id="edition" placeholder="edition" />
+    <input id="images" placeholder="image URLs (comma separated)" />
+    <input id="location" placeholder="VIT Vellore" />
+    <button onclick="createListing()">Create Listing</button>
+    <pre id="createRes"></pre>
+  </div>
+
+  <div class="card">
+    <h2>Search Listings</h2>
+    <input id="qsubject" placeholder="subject filter (optional)" />
+    <button onclick="getListings()">Get Listings</button>
+    <pre id="listRes"></pre>
+  </div>
+
+<script>
+const BASE="http://127.0.0.1:8000";
+function saveToken(t){ localStorage.setItem('pustak_token', t); document.getElementById('token').textContent="Bearer "+t; }
+function getToken(){ return localStorage.getItem('pustak_token') || ""; }
+
+async function signup(){
+  const email=document.getElementById('email').value;
+  const password=document.getElementById('password').value;
+  const payload={ email, full_name:"Demo User", college:"VIT Vellore", password };
+  try{
+    const r=await fetch(BASE+"/auth/signup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    const j=await r.json(); document.getElementById('createRes').textContent=JSON.stringify(j,null,2);
+    alert("Signup response: "+r.status);
+  }catch(e){ alert(e) }
+}
+
+async function login(){
+  const email=document.getElementById('email').value;
+  const password=document.getElementById('password').value;
+  const form=new URLSearchParams();
+  form.append("username",email); form.append("password",password);
+  try{
+    const r=await fetch(BASE+"/auth/login",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:form});
+    const j=await r.json(); if(j.access_token){ saveToken(j.access_token); alert("Logged in") } else alert(JSON.stringify(j));
+  }catch(e){ alert(e) }
+}
+
+async function createListing(){
+  const token=getToken(); if(!token){ alert("Login first"); return; }
+  const payload={
+    isbn: document.getElementById('isbn').value||"9780131103627",
+    price: parseFloat(document.getElementById('price').value||499),
+    condition: document.getElementById('condition').value,
+    subject: document.getElementById('subject').value||"Computer Science",
+    semester: parseInt(document.getElementById('semester').value||3),
+    edition: parseInt(document.getElementById('edition').value||1),
+    description: "Demo listing",
+    images: document.getElementById('images').value? document.getElementById('images').value.split(',') : [],
+    location: document.getElementById('location').value||"VIT Vellore"
+  };
+  try{
+    const r=await fetch(BASE+"/listing",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify(payload)});
+    const j=await r.json(); document.getElementById('createRes').textContent=JSON.stringify(j,null,2);
+  }catch(e){ alert(e) }
+}
+
+async function getListings(){
+  const subject=document.getElementById('qsubject').value;
+  const url=BASE+"/listings?limit=20" + (subject? "&subject="+encodeURIComponent(subject): "");
+  try{
+    const r=await fetch(url);
+    const j=await r.json(); document.getElementById('listRes').textContent=JSON.stringify(j,null,2);
+  }catch(e){ alert(e) }
+}
+</script>
+</body>
+</html>

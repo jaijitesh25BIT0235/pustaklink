@@ -1,4 +1,4 @@
-# app/utils/rate_limit.py
+﻿# app/utils/rate_limit.py
 import time
 from functools import wraps
 from fastapi import HTTPException, status, Request
@@ -20,3 +20,5 @@ def rate_limit(max_requests: int, time_window: int):
             return await func(request, *args, **kwargs)
         return wrapper
     return decorator
+
+

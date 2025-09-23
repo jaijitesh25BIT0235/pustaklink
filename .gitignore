@@ -1,18 +1,16 @@
-# Python
+﻿# Python / project
+venv/
+venv_broken/
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
 
-# Virtual environment
-venv/
-
-# SQLite database
+# local DBs and backups
 *.db
+backup*/
+backup_*
+*.bak
+*.corrupt.bak
 
-# OS stuff
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
+# editor / env
+.env
+.vscode/

@@ -1,4 +1,4 @@
-# app/api/reports.py
+﻿# app/api/reports.py
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.schemas.report import ReportCreate, ReportResponse
@@ -19,3 +19,5 @@ def report_listing(report: ReportCreate, current_user: User = Depends(get_curren
     db.commit()
     db.refresh(db_report)
     return db_report
+
+

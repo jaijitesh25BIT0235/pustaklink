@@ -1,7 +1,21 @@
-# app/db/session.py
+﻿# app/db/session.py
+# Simple SQLAlchemy session provider used by dependency injection.
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.core.config import SQLITE_DATABASE_URL
+import os
 
-engine = create_engine(SQLITE_DATABASE_URL, connect_args={"check_same_thread": False})
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./pustaklink.db")
+
+# For SQLite ensure check_same_thread False for use with multiple threads
+engine = create_engine(
+    DATABASE_URL, connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+

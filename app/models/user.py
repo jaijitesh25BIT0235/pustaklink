@@ -1,5 +1,4 @@
-# app/models/user.py
-from sqlalchemy import Column, Integer, String, DateTime, Boolean
+﻿from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from datetime import datetime
 from app.db.base import Base
 from sqlalchemy.orm import relationship
@@ -14,5 +13,8 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     is_active = Column(Boolean, default=True)
 
-    listings = relationship("Listing", back_populates="seller")
+    # match Listing.owner
+    listings = relationship("Listing", back_populates="owner")
+
+    # reports authored by this user
     reports = relationship("Report", back_populates="reporter")
